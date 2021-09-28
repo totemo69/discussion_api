@@ -16,6 +16,16 @@ namespace discussion_api
     {
     }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+      modelBuilder.Entity<Discussion>(entity =>
+      {
+        entity.HasMany(e => e.Attendees).WithOne();
+      });
+
+      modelBuilder.Entity<Discussion>().Navigation(b => b.Attendees).UsePropertyAccessMode(PropertyAccessMode.Property);
+    }
+
     public DbSet<Discussion> Discussion { get; set; }
 
     public override int SaveChanges()
